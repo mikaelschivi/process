@@ -43,7 +43,7 @@ def sub(vec1, vec2):
 def is_even(num):
     return num%2 == 0
 
-def main():
+if __name__ == "__main__":
     d = int(input("matrix dimension [int]: "))
     
     c = os.fork()
@@ -93,4 +93,3 @@ def main():
             print(f"\nADD: {v1} + {v2}")
             print(f"RES: {add(v1, v2)}")
         sleep(0.5)
-main()

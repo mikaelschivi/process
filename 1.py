@@ -5,7 +5,7 @@ import random
 # isso foi feito no dedo ta
 # so ta em ingles por costume
 
-def main():
+if __name__ == "__main__":
     c = os.fork()
     main = os.getpid()
     p = os.getppid()
@@ -16,7 +16,7 @@ def main():
         x = os.waitpid(c, 0)
         print(f"child {x[0]} end")
     else:
-        print(f"im child")
+        print(f"\nim child")
         sleep(0.5)
         
         d = int(input("select matrix dimension: "))
@@ -31,8 +31,7 @@ def main():
         
         prod = []
         for i in range(d):
-            prod.append(n1[i]*n2[i])
+            prod.append(n1[i] * n2[i])
         print(f"result: {prod}")
         
         sleep(0.5)
-main()
