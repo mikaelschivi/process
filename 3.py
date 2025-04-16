@@ -1,4 +1,5 @@
 import os
+import sys
 from time import sleep
 import random
 
@@ -9,38 +10,36 @@ def is_even(n):
     return n%2 == 0
 
 def collatz_conjecture(x):
+    print(x, end=" ")
     while(x > 1):
         if is_even(x):
             x = x/2
         else:
             x = 3 * x + 1
-        print(f"is even {is_even(x)} -> {x}")
+        print(f" -> {x}", end=" ")
 
-def main():
+def get_number(pid: int):
+    return (pid % 1000) // 10
+
+if __name__ == "__main__":
     n = int(input("number of process to create: "))
-    
-    child = []
 
     for _ in range(n):
-        print("     proc create")
         c = os.fork()
-        
+
         if c != 0:
-            child.append(c)
-
-        # child
+            os.waitpid(c, 0)
+    
         if c == 0:
-            print(f"im child {c}")
-            # cp = os.getpid()
-            # collatz_conjecture(2)
+            print("\n\nim child")
             
-            sleep(0.5)
-
-    for pid in child:
-        print(f"\nwaiting child {pid}")
-        x = os.waitpid(pid, 0)
-        print(f"child {x[0]} end")
-        
-
-
-main()
+            pid = os.getpid()
+            p = get_number(pid)
+            print(f"\npid: {pid} | n: {p}")
+            collatz_conjecture(p)
+            
+            # Como o print do python eh buffered, se matarmos o processo filho sem dar esse flush
+            # O print da conjectura nao eh feito
+            sys.stdout.flush()
+            # Da exit no processo filho assim que terminar
+            os._exit(0)
